@@ -1,0 +1,177 @@
+---
+sidebar_position: 3
+---
+
+import styles from "../../../src/css/tutorials.css"
+import VariableSvg from './Variable.svg'
+import VariableNotationSvg from './VariableNotation.svg'
+
+# Lesson 2: Hello, Lucy!
+
+## Objectives
+
+1. Accept input from a user.
+2. Write a code comment.
+3. Piece together words into bigger words.
+
+## Intro
+
+There's a dog named Lucy, and you're going to be writing some programs to help
+take care of her.
+
+She's smart, so though she might never figure out "Who's a good dog?", you need
+to first introduce yourself before she'll let you help take care of her.
+
+## Starting a new project
+
+Just like before, start a new project.
+
+```bash
+$ alr init --bin hello_lucy
+```
+
+You'll notice this time that the name of the `gpr` file is now `hello_lucy.gpr`
+and that the only `.adb` file is now called `hello_lucy.adb`.  Open up `hello_lucy.adb`
+to get started.
+
+## Remembering from last time
+
+See if you can print a hello message to Lucy with what you learned from the last
+lesson.
+
+Remember, you want to print a line of text and that capability is within Ada's
+Text Input/Output package of `Ada.Text_IO`.  Bring that package in as a
+dependency using `with` and then print a hello message to Lucy.
+
+What you have should look something along the lines of this:
+
+```ada
+with Ada.Text_IO;
+
+procedure Hello_Lucy is
+begin
+   Ada.Text_IO.Put_Line ("Hello, Lucy!");
+end Hello_Lucy;
+```
+
+## Commenting about your code
+
+Most programming languages have a way of writing things in your code that the
+computer will ignore.  Usually these are called "comments".  Programmers use
+them to write notes for themselves for other programmers in the code to describe
+why things are done a certain way, indicate tricky spots, or remind themselves of
+additional work to do.
+
+Ada comments start with two dashes (negative signs) and continue to the end of
+the line, and so are called "line comments".  Your text editor might highlight
+the comment a different color to show that it's a comment.
+
+I'm going to annotate the above program with comments -- none of the
+things I added change the meaning of the program, from the computer's point of
+view.
+
+```ada
+--  This is the context clause.
+--  We're describing how we depend on the Ada package, and in particular,
+--  the Text_IO package inside of the Ada package.  The period (also called a
+--  "full stop") indicates that the thing on the right is contained in the
+--  thing on the left.
+with Ada.Text_IO;
+
+--  Our program starts here.
+procedure Hello_Lucy is
+  --  This is where we'd describe places to save information, called
+  -- "variables" if they can change, and "constants" if they cannot.
+  --  There's a few other things we can put here which we won't talk about
+  --  yet.
+begin  --  The program begins executing statements here
+   Ada.Text_IO.Put_Line ("Hello, Lucy!");  --  Say hello to Lucy!
+end Hello_Lucy; --  end of the program
+--  This line is after the program.
+```
+
+## Telling Lucy your name
+
+Using this starting point, you're going to accept some input and then print the
+greeting with your name.
+
+There's a lot of other pieces of code you can use within `Ada.Text_IO`.  The
+one that you're going to use, is a function called `Get_Line`.  This waits for
+input from the user and then returns it as a group of characters, which is
+usually called a "string".
+
+You want to store your name, which is a string of characters, and assign it the
+value produced from your input by the `Get_Line` function.
+
+## Variables
+
+You want to get and then store your name somewhere, which you'll do
+with a "variable."  Variables provide a way to point to place of
+storage with a name which indentifies that location.
+
+"constants" are sort of like variables, but they're constant and can't change
+once set... because they're constant...
+
+Ada also requires you to specify the "type" of the variable.  This helps the
+computer check for silly mistakes, like if you tried to determine the square
+root of a string of characters.
+
+If we drew a picture of this, it'd look like this:
+
+<div style="width: 10rem; text-align: center">
+<VariableSvg />
+</div>
+
+You write variables very similarly to use, but with a colon (`:`) in between
+the name and the type.
+
+<div className={styles.centeredImage}>
+<VariableNotationSvg />
+</div>
+
+You're trying to make a variable of type `String`.  So far, you know that what
+you need is:
+
+```ada
+My_Name : String
+```
+
+To assign a variable, you follow this by a colon and equal pair (`:=`) and then
+the value you want to give the variable.  This looks a bit weird; back in the
+old days, some text editors would show this as leftward arrow (←) indicating
+what this does -- it places the value to the right inside the place given by
+the name to the left.
+
+You're getting the value from the `Get_Line` function from the `Ada.Text_IO`
+package, and then telling the computer that this is the end of this piece of
+code with a semicolon (`;`).
+
+```ada
+My_Name : String := Ada.Text_IO.Get_Line;
+```
+
+Extra saved data goes between `is` and `begin`, which is where you'll make
+your variable.
+
+Putting this all together:
+
+```ada
+with Ada.Text_IO;
+
+procedure Hello_Lucy is
+   My_Name : String := Ada.Text_IO.Get_Line;
+begin
+   Ada.Text_IO.Put_Line ("Hello, Lucy!");
+end Hello_Lucy;
+```
+
+To use a variable, you must "**declare**" that it exists.  You can also assign
+a value to a variable when you declare it.  You write the name of your variable,
+followed by a colon, followed by the **type** of that variable.
+
+
+
+You want to add more words to the end of that greeting, and there's a strange
+looking way of doing this.  It takes two strings, sticks the ends together and
+returns the whole thing as a larger string.
+
